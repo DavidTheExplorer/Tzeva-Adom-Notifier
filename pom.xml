@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dte</groupId>
 	<artifactId>tzevaadomnotifier</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	
 	<properties>
 		<shade.base>dte.tzevaadomnotifier.shaded</shade.base>
@@ -83,9 +83,9 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>dte</groupId>
-	    	<artifactId>tzevaadomapi</artifactId>
-	    	<version>1.2.0</version>
+			<groupId>com.github.DavidTheExplorer</groupId>
+	    	<artifactId>Tzeva-Adom-API</artifactId>
+	    	<version>v1.2.0</version>
 		</dependency>
 		
 		<dependency>
