@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>dte</groupId>
+	<artifactId>tzevaadomnotifier</artifactId>
+	<version>1.0.0</version>
+	
+	<properties>
+		<shade.base>dte.tzevaadomnotifier.shaded</shade.base>
+	</properties>
+	
+	<build>
+		<finalName>Tzeva Adom Notifier ${project.version}</finalName>
+		<plugins>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<target>8</target>
+					<source>8</source>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+					<relocations>
+
+						<relocation>
+							<pattern>dte.tzevaadomapi</pattern>
+							<shadedPattern>${shade.base}.tzevaadomapi</shadedPattern>
+						</relocation>
+
+						<relocation>
+							<pattern>dte.modernjavaplugin</pattern>
+							<shadedPattern>${shade.base}.modernjavaplugin</shadedPattern>
+						</relocation>
+						
+						<relocation>
+							<pattern>com.cryptomorin.xseries</pattern>
+							<shadedPattern>${shade.base}.xseries</shadedPattern>
+						</relocation>
+
+					</relocations>
+
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+		
+		<repository>
+			<id>jitpack.io</id>
+        	<url>https://jitpack.io</url>
+		</repository>
+		
+	</repositories>
+	
+	<dependencies>
+		
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>dte</groupId>
+	    	<artifactId>tzevaadomapi</artifactId>
+	    	<version>1.2.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.DavidTheExplorer</groupId>
+	    	<artifactId>ModernJavaPlugin</artifactId>
+	    	<version>1.1.0</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>com.github.cryptomorin</groupId>
+    		<artifactId>XSeries</artifactId>
+    		<version>9.3.1</version>
+		</dependency>
+		
+	</dependencies>
+</project>

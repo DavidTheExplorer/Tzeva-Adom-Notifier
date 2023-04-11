@@ -1,0 +1,14 @@
+# This settings determines the used notifier.
+# Multiple notifiers can be used, separated by a comma.
+server-notifier: title, sound
+
+# This section configures the different notifiers.
+notifiers:
+    title:
+        title: '&cצבע אדום ב&4&l%city%'
+        subtitle: '&c&l> &4%title% &c&l<'
+    
+    sound:
+        value: 'BLOCK_BELL_USE'
+        alternative: 'BLOCK_NOTE_BLOCK_HARP'
+        amount: 7
