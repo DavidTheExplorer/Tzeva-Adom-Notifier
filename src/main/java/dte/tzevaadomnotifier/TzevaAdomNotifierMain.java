@@ -1,16 +1,19 @@
 package dte.tzevaadomnotifier;
 
-import static dte.tzevaadomnotifier.utils.SchedulerUtils.runSync;
 import static org.bukkit.ChatColor.RED;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.notifiers.factory.TzevaAdomNotifierConfigFactory;
 import dte.tzevaadomnotifier.notifiers.factory.TzevaAdomNotifierFactory;
+import dte.tzevaadomnotifier.utils.SchedulerUtils;
 
 public class TzevaAdomNotifierMain extends ModernJavaPlugin
 {
@@ -27,23 +30,32 @@ public class TzevaAdomNotifierMain extends ModernJavaPlugin
 
 		this.tzevaAdomNotifierFactory = new TzevaAdomNotifierConfigFactory(getConfig());
 		
-		TzevaAdomNotifier
-		.requestFromPikudHaoref()
-		.every(Duration.ofSeconds(2))
-		.onFailedRequest(exception -> logToConsole(RED + exception.getMessage()))
-		.onTzevaAdom(runSync(parseTzevaAdomNotifier()))
-		.listen();
+		startNotifier();
 	}
 
 	public static TzevaAdomNotifierMain getInstance() 
 	{
 		return INSTANCE;
 	}
+	
+	private void startNotifier() 
+	{
+		TzevaAdomNotifier.Builder notifierBuilder = TzevaAdomNotifier.requestFromPikudHaoref()
+				.every(Duration.ofSeconds(2))
+				.onFailedRequest(exception -> logToConsole(RED + exception.getMessage()));
+		
+		parseTzevaAdomNotifiers().forEach(notifierBuilder::onTzevaAdom);
 
-	private Consumer<Alert> parseTzevaAdomNotifier()
+		notifierBuilder.listen();
+	}
+
+	private List<Consumer<Alert>> parseTzevaAdomNotifiers()
 	{
 		String serverNotifierName = getConfig().getString("server-notifier");
 
-		return this.tzevaAdomNotifierFactory.create(serverNotifierName);
+		return Arrays.stream(serverNotifierName.split(", "))
+				.map(this.tzevaAdomNotifierFactory::create)
+				.map(SchedulerUtils::runSync)
+				.collect(Collectors.toList());
 	}
 }

@@ -2,10 +2,7 @@ package dte.tzevaadomnotifier.notifiers.factory;
 
 import static dte.tzevaadomnotifier.utils.ChatColorUtils.colorize;
 import static dte.tzevaadomnotifier.utils.PlaceholderUtils.injectPlaceholders;
-import static java.util.stream.Collectors.toList;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 import org.bukkit.configuration.Configuration;
@@ -15,7 +12,6 @@ import com.cryptomorin.xseries.XSound;
 import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomnotifier.notifiers.SoundNotifierListener;
 import dte.tzevaadomnotifier.notifiers.TitleNotifierListener;
-import dte.tzevaadomnotifier.notifiers.composite.CompositeTzevaAdomListener;
 
 public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
 {
@@ -29,19 +25,7 @@ public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
 	@Override
 	public Consumer<Alert> create(String name)
 	{
-		List<Consumer<Alert>> combinedNotifiers = Arrays.stream(name.split(", "))
-				.map(this::fromName)
-				.collect(toList());
-		
-		CompositeTzevaAdomListener composite = new CompositeTzevaAdomListener();
-		combinedNotifiers.forEach(composite::add);
-		
-		return composite;
-	}
-	
-	private Consumer<Alert> fromName(String notifierName)
-	{
-		switch(notifierName.toLowerCase()) 
+		switch(name.toLowerCase()) 
 		{
 			case "title":
 				return parseTitleNotifier();
@@ -50,7 +34,7 @@ public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
 				return parseSoundNotifier();
 				
 			default:
-				throw new IllegalArgumentException(String.format("Could not find a notifier named '%s'", notifierName));
+				throw new IllegalArgumentException(String.format("Could not find a notifier named '%s'", name));
 		}
 	}
 	
