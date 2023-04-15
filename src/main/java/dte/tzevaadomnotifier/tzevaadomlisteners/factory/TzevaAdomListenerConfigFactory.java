@@ -1,4 +1,4 @@
-package dte.tzevaadomnotifier.notifiers.factory;
+package dte.tzevaadomnotifier.tzevaadomlisteners.factory;
 
 import static dte.tzevaadomnotifier.utils.ChatColorUtils.colorize;
 import static dte.tzevaadomnotifier.utils.PlaceholderUtils.injectPlaceholders;
@@ -10,14 +10,14 @@ import org.bukkit.configuration.Configuration;
 import com.cryptomorin.xseries.XSound;
 
 import dte.tzevaadomapi.alert.Alert;
-import dte.tzevaadomnotifier.notifiers.SoundNotifierListener;
-import dte.tzevaadomnotifier.notifiers.TitleNotifierListener;
+import dte.tzevaadomnotifier.tzevaadomlisteners.SoundNotifierListener;
+import dte.tzevaadomnotifier.tzevaadomlisteners.TitleNotifierListener;
 
-public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
+public class TzevaAdomListenerConfigFactory implements TzevaAdomListenerFactory
 {
 	private final Configuration config;
 
-	public TzevaAdomNotifierConfigFactory(Configuration config) 
+	public TzevaAdomListenerConfigFactory(Configuration config) 
 	{
 		this.config = config;
 	}

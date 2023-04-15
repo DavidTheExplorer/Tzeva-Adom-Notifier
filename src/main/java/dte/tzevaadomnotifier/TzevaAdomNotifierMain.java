@@ -11,13 +11,12 @@ import java.util.stream.Collectors;
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
-import dte.tzevaadomnotifier.notifiers.factory.TzevaAdomNotifierConfigFactory;
-import dte.tzevaadomnotifier.notifiers.factory.TzevaAdomNotifierFactory;
+import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomListenerConfigFactory;
 import dte.tzevaadomnotifier.utils.SchedulerUtils;
 
 public class TzevaAdomNotifierMain extends ModernJavaPlugin
 {
-	private TzevaAdomNotifierFactory tzevaAdomNotifierFactory;
+	private TzevaAdomListenerConfigFactory tzevaAdomListenerFactory;
 
 	private static TzevaAdomNotifierMain INSTANCE;
 
@@ -28,7 +27,7 @@ public class TzevaAdomNotifierMain extends ModernJavaPlugin
 
 		saveDefaultConfig();
 
-		this.tzevaAdomNotifierFactory = new TzevaAdomNotifierConfigFactory(getConfig());
+		this.tzevaAdomListenerFactory = new TzevaAdomListenerConfigFactory(getConfig());
 		
 		startNotifier();
 	}
@@ -54,7 +53,7 @@ public class TzevaAdomNotifierMain extends ModernJavaPlugin
 		String serverNotifierName = getConfig().getString("server-notifier");
 
 		return Arrays.stream(serverNotifierName.split(", "))
-				.map(this.tzevaAdomNotifierFactory::create)
+				.map(this.tzevaAdomListenerFactory::create)
 				.map(SchedulerUtils::runSync)
 				.collect(Collectors.toList());
 	}
