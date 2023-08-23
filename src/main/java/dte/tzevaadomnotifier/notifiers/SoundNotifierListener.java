@@ -3,18 +3,18 @@ package dte.tzevaadomnotifier.notifiers;
 import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
+
+import com.cryptomorin.xseries.XSound;
 
 import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomnotifier.TzevaAdomNotifierMain;
-import dte.tzevaadomnotifier.runnables.RepeatedSoundTask;
 
 public class SoundNotifierListener implements Consumer<Alert>
 {
-	private final Sound sound;
+	private final XSound sound;
 	private final int amount;
 	
-	public SoundNotifierListener(Sound sound, int amount)
+	public SoundNotifierListener(XSound sound, int amount)
 	{
 		this.sound = sound;
 		this.amount = amount;
@@ -23,6 +23,6 @@ public class SoundNotifierListener implements Consumer<Alert>
 	@Override
 	public void accept(Alert alert) 
 	{
-		new RepeatedSoundTask(this.sound, this.amount, Bukkit.getOnlinePlayers()).runTaskTimer(TzevaAdomNotifierMain.getInstance(), 0, 5);
+		this.sound.playRepeatedly(TzevaAdomNotifierMain.getInstance(), Bukkit.getOnlinePlayers(), 1, 1, this.amount, 5);
 	}
 }

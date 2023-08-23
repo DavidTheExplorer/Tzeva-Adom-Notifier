@@ -74,6 +74,6 @@ public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
 		if(!sound.isSupported()) 
 			sound = XSound.parse(this.config.getString("notifiers.sound.alternative")).sound;
 
-		return new SoundNotifierListener(sound.parseSound(), amount);
+		return new SoundNotifierListener(sound, amount);
 	}
 }
