@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
-import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierConfigFactory;
 import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierFactory;
 import dte.tzevaadomnotifier.utils.SchedulerUtils;
 
@@ -27,7 +26,7 @@ public class TzevaAdomNotifierMain extends ModernJavaPlugin
 
 		saveDefaultConfig();
 
-		this.tzevaAdomNotifierFactory = new TzevaAdomNotifierConfigFactory(getConfig());
+		this.tzevaAdomNotifierFactory = new TzevaAdomNotifierFactory(getConfig());
 		
 		createTzevaAdomNotifier().listen();
 	}
