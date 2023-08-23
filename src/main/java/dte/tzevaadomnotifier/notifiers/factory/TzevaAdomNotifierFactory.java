@@ -1,11 +1,9 @@
 package dte.tzevaadomnotifier.notifiers.factory;
 
-import java.util.function.Consumer;
-
-import dte.tzevaadomapi.alert.Alert;
+import dte.tzevaadomapi.notifier.TzevaAdomListener;
 
 @FunctionalInterface
 public interface TzevaAdomNotifierFactory
 {
-	Consumer<Alert> create(String name);
+	TzevaAdomListener create(String name);
 }

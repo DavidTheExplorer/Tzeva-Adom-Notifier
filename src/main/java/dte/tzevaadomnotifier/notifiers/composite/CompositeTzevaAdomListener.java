@@ -2,22 +2,22 @@ package dte.tzevaadomnotifier.notifiers.composite;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import dte.tzevaadomapi.alert.Alert;
+import dte.tzevaadomapi.notifier.TzevaAdomListener;
 
-public class CompositeTzevaAdomListener implements Consumer<Alert>
+public class CompositeTzevaAdomListener implements TzevaAdomListener
 {
-	private final List<Consumer<Alert>> notifiers = new ArrayList<>();
+	private final List<TzevaAdomListener> listeners = new ArrayList<>();
 	
-	public void add(Consumer<Alert> notifiers) 
+	public void add(TzevaAdomListener listener) 
 	{
-		this.notifiers.add(notifiers);
+		this.listeners.add(listener);
 	}
 	
 	@Override
-	public void accept(Alert alert) 
+	public void onTzevaAdom(Alert alert) 
 	{
-		this.notifiers.forEach(notifier -> notifier.accept(alert));
+		this.listeners.forEach(listener -> listener.onTzevaAdom(alert));
 	}
 }

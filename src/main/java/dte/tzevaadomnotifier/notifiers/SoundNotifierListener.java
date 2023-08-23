@@ -1,15 +1,14 @@
 package dte.tzevaadomnotifier.notifiers;
 
-import java.util.function.Consumer;
-
 import org.bukkit.Bukkit;
 
 import com.cryptomorin.xseries.XSound;
 
 import dte.tzevaadomapi.alert.Alert;
+import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomnotifier.TzevaAdomNotifierMain;
 
-public class SoundNotifierListener implements Consumer<Alert>
+public class SoundNotifierListener implements TzevaAdomListener
 {
 	private final XSound sound;
 	private final int amount;
@@ -21,7 +20,7 @@ public class SoundNotifierListener implements Consumer<Alert>
 	}
 
 	@Override
-	public void accept(Alert alert) 
+	public void onTzevaAdom(Alert alert) 
 	{
 		this.sound.playRepeatedly(TzevaAdomNotifierMain.getInstance(), Bukkit.getOnlinePlayers(), 1, 1, this.amount, 5);
 	}

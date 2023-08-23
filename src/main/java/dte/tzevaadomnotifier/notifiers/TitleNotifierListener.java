@@ -1,13 +1,13 @@
 package dte.tzevaadomnotifier.notifiers;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.bukkit.Bukkit;
 
 import dte.tzevaadomapi.alert.Alert;
+import dte.tzevaadomapi.notifier.TzevaAdomListener;
 
-public class TitleNotifierListener implements Consumer<Alert>
+public class TitleNotifierListener implements TzevaAdomListener
 {
 	private final Function<Alert, String[]> titleFactory;
 	
@@ -18,7 +18,7 @@ public class TitleNotifierListener implements Consumer<Alert>
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void accept(Alert alert)
+	public void onTzevaAdom(Alert alert)
 	{
 		String[] titleData = fetchTitleData(alert);
 		

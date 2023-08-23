@@ -6,13 +6,12 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.bukkit.configuration.Configuration;
 
 import com.cryptomorin.xseries.XSound;
 
-import dte.tzevaadomapi.alert.Alert;
+import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomnotifier.notifiers.SoundNotifierListener;
 import dte.tzevaadomnotifier.notifiers.TitleNotifierListener;
 import dte.tzevaadomnotifier.notifiers.composite.CompositeTzevaAdomListener;
@@ -27,9 +26,9 @@ public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
 	}
 
 	@Override
-	public Consumer<Alert> create(String name)
+	public TzevaAdomListener create(String name)
 	{
-		List<Consumer<Alert>> combinedNotifiers = Arrays.stream(name.split(", "))
+		List<TzevaAdomListener> combinedNotifiers = Arrays.stream(name.split(", "))
 				.map(this::fromName)
 				.collect(toList());
 		
@@ -39,7 +38,7 @@ public class TzevaAdomNotifierConfigFactory implements TzevaAdomNotifierFactory
 		return composite;
 	}
 	
-	private Consumer<Alert> fromName(String notifierName)
+	private TzevaAdomListener fromName(String notifierName)
 	{
 		switch(notifierName.toLowerCase()) 
 		{
