@@ -1,4 +1,4 @@
-package dte.tzevaadomnotifier.notifiers.composite;
+package dte.tzevaadomnotifier.tzevaadomlisteners.composite;
 
 import java.util.ArrayList;
 import java.util.List;

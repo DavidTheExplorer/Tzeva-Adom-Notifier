@@ -8,8 +8,8 @@ import java.time.Duration;
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
-import dte.tzevaadomnotifier.notifiers.factory.TzevaAdomNotifierConfigFactory;
-import dte.tzevaadomnotifier.notifiers.factory.TzevaAdomNotifierFactory;
+import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierConfigFactory;
+import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierFactory;
 
 public class TzevaAdomNotifierMain extends ModernJavaPlugin
 {

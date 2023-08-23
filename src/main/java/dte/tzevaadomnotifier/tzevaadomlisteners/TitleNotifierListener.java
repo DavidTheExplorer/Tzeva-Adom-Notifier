@@ -1,4 +1,4 @@
-package dte.tzevaadomnotifier.notifiers;
+package dte.tzevaadomnotifier.tzevaadomlisteners;
 
 import java.util.function.Function;
 

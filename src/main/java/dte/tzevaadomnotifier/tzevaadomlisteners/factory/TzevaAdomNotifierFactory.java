@@ -1,4 +1,4 @@
-package dte.tzevaadomnotifier.notifiers.factory;
+package dte.tzevaadomnotifier.tzevaadomlisteners.factory;
 
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 
