@@ -8,8 +8,8 @@ import org.bukkit.configuration.Configuration;
 import com.cryptomorin.xseries.XSound;
 
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
-import dte.tzevaadomnotifier.tzevaadomlisteners.SoundNotifierListener;
-import dte.tzevaadomnotifier.tzevaadomlisteners.TitleNotifierListener;
+import dte.tzevaadomnotifier.tzevaadomlisteners.SoundNotifier;
+import dte.tzevaadomnotifier.tzevaadomlisteners.TitleNotifier;
 
 public class TzevaAdomNotifierFactory
 {
@@ -35,9 +35,9 @@ public class TzevaAdomNotifierFactory
 		}
 	}
 	
-	private TitleNotifierListener parseTitleNotifier() 
+	private TitleNotifier parseTitleNotifier() 
 	{
-		return new TitleNotifierListener(alert -> 
+		return new TitleNotifier(alert -> 
 		{
 			String title = injectPlaceholders(colorize(this.config.getString("notifiers.title.title")), alert);
 			String subtitle = injectPlaceholders(colorize(this.config.getString("notifiers.title.subtitle")), alert);
@@ -46,7 +46,7 @@ public class TzevaAdomNotifierFactory
 		});
 	}
 	
-	private SoundNotifierListener parseSoundNotifier() 
+	private SoundNotifier parseSoundNotifier() 
 	{
 		XSound sound = XSound.parse(this.config.getString("notifiers.sound.value")).sound;
 		int amount = this.config.getInt("notifiers.sound.amount");
@@ -55,6 +55,6 @@ public class TzevaAdomNotifierFactory
 		if(!sound.isSupported()) 
 			sound = XSound.parse(this.config.getString("notifiers.sound.alternative")).sound;
 
-		return new SoundNotifierListener(sound, amount);
+		return new SoundNotifier(sound, amount);
 	}
 }

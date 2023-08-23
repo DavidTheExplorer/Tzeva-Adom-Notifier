@@ -7,11 +7,11 @@ import org.bukkit.Bukkit;
 import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 
-public class TitleNotifierListener implements TzevaAdomListener
+public class TitleNotifier implements TzevaAdomListener
 {
 	private final Function<Alert, String[]> titleFactory;
 	
-	public TitleNotifierListener(Function<Alert, String[]> titleFactory) 
+	public TitleNotifier(Function<Alert, String[]> titleFactory) 
 	{
 		this.titleFactory = titleFactory;
 	}
