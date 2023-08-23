@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 
+import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomnotifier.TzevaAdomNotifierPlugin;
 
@@ -30,6 +31,14 @@ public class SchedulerUtils
 	 */
 	public static TzevaAdomListener runSync(TzevaAdomListener listener)
 	{
-		return (alert) -> runSync(listener::onTzevaAdom);
+		//overriding Consumer directly otherwise the method would infinitely call itself
+		return (alert) -> runSync(new Consumer<Alert>()
+		{
+			@Override
+			public void accept(Alert alert)
+			{
+				listener.onTzevaAdom(alert);
+			}
+		});
 	}
 }
