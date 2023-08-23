@@ -6,7 +6,7 @@ import com.cryptomorin.xseries.XSound;
 
 import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
-import dte.tzevaadomnotifier.TzevaAdomNotifierMain;
+import dte.tzevaadomnotifier.TzevaAdomNotifierPlugin;
 
 public class SoundNotifier implements TzevaAdomListener
 {
@@ -22,6 +22,6 @@ public class SoundNotifier implements TzevaAdomListener
 	@Override
 	public void onTzevaAdom(Alert alert) 
 	{
-		this.sound.playRepeatedly(TzevaAdomNotifierMain.getInstance(), Bukkit.getOnlinePlayers(), 1, 1, this.amount, 5);
+		this.sound.playRepeatedly(TzevaAdomNotifierPlugin.getInstance(), Bukkit.getOnlinePlayers(), 1, 1, this.amount, 5);
 	}
 }

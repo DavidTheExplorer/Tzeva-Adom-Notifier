@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
-import dte.tzevaadomnotifier.TzevaAdomNotifierMain;
+import dte.tzevaadomnotifier.TzevaAdomNotifierPlugin;
 
 public class SchedulerUtils 
 {
@@ -18,7 +18,7 @@ public class SchedulerUtils
 	 */
 	public static <T> Consumer<T> runSync(Consumer<T> consumer)
 	{
-		return (object) -> Bukkit.getScheduler().runTask(TzevaAdomNotifierMain.getInstance(), () -> consumer.accept(object));
+		return (object) -> Bukkit.getScheduler().runTask(TzevaAdomNotifierPlugin.getInstance(), () -> consumer.accept(object));
 	}
 	
 

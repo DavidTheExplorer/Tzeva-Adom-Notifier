@@ -13,11 +13,11 @@ import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierFactory;
 import dte.tzevaadomnotifier.utils.SchedulerUtils;
 
-public class TzevaAdomNotifierMain extends ModernJavaPlugin
+public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 {
 	private TzevaAdomNotifierFactory tzevaAdomNotifierFactory;
 
-	private static TzevaAdomNotifierMain INSTANCE;
+	private static TzevaAdomNotifierPlugin INSTANCE;
 
 	@Override
 	public void onEnable() 
@@ -31,7 +31,7 @@ public class TzevaAdomNotifierMain extends ModernJavaPlugin
 		createTzevaAdomNotifier().listen();
 	}
 
-	public static TzevaAdomNotifierMain getInstance() 
+	public static TzevaAdomNotifierPlugin getInstance() 
 	{
 		return INSTANCE;
 	}
