@@ -3,3 +3,6 @@ main: dte.tzevaadomnotifier.TzevaAdomNotifierPlugin
 version: 1.0
 description: Notifies online players when a Tzeva Adom takes place.
 api-version: 1.13
+commands:
+    tzevaadomtest:
+        description: Test your config settings in case of a Tzeva Adom.
