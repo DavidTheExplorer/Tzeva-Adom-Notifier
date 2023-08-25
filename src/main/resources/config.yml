@@ -1,4 +1,4 @@
-# This settings determines the used notifier.
+# Determine how to notify players when there is Tzeva Adom.
 # Multiple notifiers can be used, separated by a comma.
 server-notifier: title, sound
 
