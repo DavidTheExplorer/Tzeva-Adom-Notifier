@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
+import dte.tzevaadomapi.alertsource.PHOAlertSource;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.commands.TzevaAdomTestCommand;
@@ -51,6 +52,7 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	{
 		return new TzevaAdomNotifier.Builder()
 				.every(Duration.ofSeconds(2))
+				.requestFrom(new PHOAlertSource())
 				.onTzevaAdom(this.tzevaAdomListener)
 				.onFailedRequest(exception -> logToConsole(RED + exception.getMessage()))
 				.build();
