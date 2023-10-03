@@ -1,7 +1,6 @@
 package dte.tzevaadomnotifier.tzevaadomlisteners.factory;
 
 import static dte.tzevaadomnotifier.utils.ChatColorUtils.colorize;
-import static dte.tzevaadomnotifier.utils.PlaceholderUtils.injectPlaceholders;
 
 import org.bukkit.configuration.Configuration;
 
@@ -45,10 +44,10 @@ public class TzevaAdomListenerFactory
 	
 	private TitleListener parseTitleListener() 
 	{
-		return new TitleListener(alert -> 
+		return TitleListener.withPlaceholders(alert -> 
 		{
-			String title = injectPlaceholders(colorize(this.config.getString("notifiers.title.title")), alert);
-			String subtitle = injectPlaceholders(colorize(this.config.getString("notifiers.title.subtitle")), alert);
+			String title = colorize(this.config.getString("notifiers.title.title"));
+			String subtitle = colorize(this.config.getString("notifiers.title.subtitle"));
 
 			return new String[]{title, subtitle};
 		});
