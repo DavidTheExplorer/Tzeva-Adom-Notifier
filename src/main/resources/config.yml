@@ -1,13 +1,14 @@
-# Determine how to notify players when there is Tzeva Adom.
+# Determines how to notify players when there is a Tzeva Adom.
 # Multiple notifiers can be used, separated by a comma.
 server-notifier: title, sound
 
-# This section configures the different notifiers.
+# This section configures the behavior of the notifiers.
 notifiers:
     title:
         title: '&cצבע אדום ב&4&l%city%'
         subtitle: '&c&l> &4%title% &c&l<'
     
+    # The 'alternative' sound is used when the server's version doesn't have the sound of 'value'.
     sound:
         value: 'BLOCK_BELL_USE'
         alternative: 'BLOCK_NOTE_BLOCK_HARP'
