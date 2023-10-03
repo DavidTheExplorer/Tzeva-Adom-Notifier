@@ -14,9 +14,9 @@ import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.commands.TzevaAdomTestCommand;
-import dte.tzevaadomnotifier.tzevaadomlisteners.composite.CompositeTzevaAdomListener;
+import dte.tzevaadomnotifier.tzevaadomlisteners.CompositeTzevaAdomListener;
+import dte.tzevaadomnotifier.tzevaadomlisteners.SyncTzevaAdomListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomListenerFactory;
-import dte.tzevaadomnotifier.tzevaadomlisteners.sync.SyncTzevaAdomListener;
 
 public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 {

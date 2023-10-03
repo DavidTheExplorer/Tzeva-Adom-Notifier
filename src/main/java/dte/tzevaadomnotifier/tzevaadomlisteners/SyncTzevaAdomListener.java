@@ -1,4 +1,4 @@
-package dte.tzevaadomnotifier.tzevaadomlisteners.sync;
+package dte.tzevaadomnotifier.tzevaadomlisteners;
 
 import org.bukkit.Bukkit;
 
