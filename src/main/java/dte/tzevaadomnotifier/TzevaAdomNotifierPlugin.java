@@ -16,6 +16,7 @@ import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.commands.TzevaAdomTestCommand;
 import dte.tzevaadomnotifier.tzevaadomlisteners.composite.CompositeTzevaAdomListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomListenerFactory;
+import dte.tzevaadomnotifier.tzevaadomlisteners.sync.SyncTzevaAdomListener;
 
 public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 {
@@ -76,10 +77,11 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 				.filter(Objects::nonNull)
 				.collect(toList());
 
-		//combine them into a single listener(so we have an object to pass to the test command)
+		//combine them into a single listener in order to work against a single listener
 		CompositeTzevaAdomListener compositeListener = new CompositeTzevaAdomListener();
 		configNotifiers.forEach(compositeListener::add);
 
-		return compositeListener;
+		//lastly, decorate it to operate on the Server Thread - so the inner ones can safely access the Bukkit API
+		return new SyncTzevaAdomListener(compositeListener);
 	}
 }

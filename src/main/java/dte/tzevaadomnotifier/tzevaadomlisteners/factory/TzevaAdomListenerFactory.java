@@ -9,7 +9,6 @@ import com.cryptomorin.xseries.XSound;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.SoundListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.TitleListener;
-import dte.tzevaadomnotifier.tzevaadomlisteners.sync.SyncTzevaAdomListener;
 
 public class TzevaAdomListenerFactory
 {
@@ -22,24 +21,17 @@ public class TzevaAdomListenerFactory
 	
 	public TzevaAdomListener create(String notifierName)
 	{
-		TzevaAdomListener notifier;
-		
 		switch(notifierName.toLowerCase()) 
 		{
 			case "title":
-				notifier = parseTitleListener();
-				break;
+				return parseTitleListener();
 				
 			case "sound":
-				notifier = parseSoundListener();
-				break;
-				
-			default:
+				return parseSoundListener();
+			
+			default: 
 				throw new IllegalArgumentException(String.format("Could not find a notifier named '%s'", notifierName));
 		}
-		
-		//decorates the notifier to operate on the Server Thread - so it can safely access the Bukkit API.
-		return new SyncTzevaAdomListener(notifier);
 	}
 	
 	private TitleListener parseTitleListener() 
