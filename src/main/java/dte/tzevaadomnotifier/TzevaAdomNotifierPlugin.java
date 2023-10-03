@@ -8,17 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
-import dte.tzevaadomapi.alertsource.PHOAlertSource;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.commands.TzevaAdomTestCommand;
 import dte.tzevaadomnotifier.tzevaadomlisteners.composite.CompositeTzevaAdomListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierFactory;
-import dte.tzevaadomnotifier.utils.SchedulerUtils;
 
 public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 {
-	private TzevaAdomNotifierFactory tzevaAdomNotifierFactory;
 	private TzevaAdomListener tzevaAdomListener;
 
 	private static TzevaAdomNotifierPlugin INSTANCE;
@@ -28,12 +25,9 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	{
 		INSTANCE = this;
 
-		saveDefaultConfig();
-		registerCommands();
-		
-
-		this.tzevaAdomNotifierFactory = new TzevaAdomNotifierFactory(getConfig());
 		this.tzevaAdomListener = parseTzevaAdomNotifier();
+		
+		getCommand("tzevaadomtest").setExecutor(new TzevaAdomTestCommand(this.tzevaAdomListener));
 		
 		createTzevaAdomNotifier().listen();
 	}
@@ -43,16 +37,10 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 		return INSTANCE;
 	}
 	
-	private void registerCommands() 
-	{
-		getCommand("tzevaadomtest").setExecutor(new TzevaAdomTestCommand(this.tzevaAdomListener));
-	}
-
 	private TzevaAdomNotifier createTzevaAdomNotifier() 
 	{
-		return new TzevaAdomNotifier.Builder()
+		return TzevaAdomNotifier.basedOnPikudHaoref()
 				.every(Duration.ofSeconds(2))
-				.requestFrom(new PHOAlertSource())
 				.onTzevaAdom(this.tzevaAdomListener)
 				.onFailedRequest(exception -> logToConsole(RED + exception.getMessage()))
 				.build();
@@ -60,18 +48,21 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	
 	private TzevaAdomListener parseTzevaAdomNotifier()
 	{
+		saveDefaultConfig();
+		
+		TzevaAdomNotifierFactory notifierFactory = new TzevaAdomNotifierFactory(getConfig());
+		
 		//users may specify multiple notifiers
 		String[] serverNotifierNames = getConfig().getString("server-notifier").split(", ");
 
-		//parse and force the config notifiers to be sync
-		List<TzevaAdomListener> syncListeners = Arrays.stream(serverNotifierNames)
-				.map(this.tzevaAdomNotifierFactory::create)
-				.map(SchedulerUtils::runSync)
+		//parse the config notifiers to objects
+		List<TzevaAdomListener> configNotifiers = Arrays.stream(serverNotifierNames)
+				.map(notifierFactory::create)
 				.collect(toList());
 
 		//combine the notifiers into a single listener(so we have an object to pass to the test command)
 		CompositeTzevaAdomListener compositeListener = new CompositeTzevaAdomListener();
-		syncListeners.forEach(compositeListener::add);
+		configNotifiers.forEach(compositeListener::add);
 
 		return compositeListener;
 	}
