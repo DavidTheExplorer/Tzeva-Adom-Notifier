@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
@@ -43,7 +45,7 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 		return new TzevaAdomNotifier.Builder()
 				.every(Duration.ofSeconds(2))
 				.onTzevaAdom(this.tzevaAdomListener)
-				.onFailedRequest(exception -> logToConsole(RED + exception.getMessage()))
+				.onFailedRequest(exception -> logToConsole(RED + "Can't check if it's Tzeva Adom - " + ExceptionUtils.getMessage(exception)))
 				.build();
 	}
 	
