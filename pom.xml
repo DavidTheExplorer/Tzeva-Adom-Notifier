@@ -85,7 +85,7 @@
 		<dependency>
 			<groupId>com.github.DavidTheExplorer</groupId>
 	    	<artifactId>Tzeva-Adom-API</artifactId>
-	    	<version>1.4.0</version>
+	    	<version>1.4.1</version>
 		</dependency>
 		
 		<dependency>

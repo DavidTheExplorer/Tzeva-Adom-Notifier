@@ -40,7 +40,7 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	
 	private TzevaAdomNotifier createTzevaAdomNotifier() 
 	{
-		return TzevaAdomNotifier.basedOnPikudHaoref()
+		return new TzevaAdomNotifier.Builder()
 				.every(Duration.ofSeconds(2))
 				.onTzevaAdom(this.tzevaAdomListener)
 				.onFailedRequest(exception -> logToConsole(RED + exception.getMessage()))
