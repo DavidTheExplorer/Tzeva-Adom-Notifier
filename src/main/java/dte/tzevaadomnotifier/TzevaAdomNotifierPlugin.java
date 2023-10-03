@@ -6,6 +6,7 @@ import static org.bukkit.ChatColor.RED;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
@@ -57,7 +58,20 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 
 		//parse the config notifiers to objects
 		List<TzevaAdomListener> configNotifiers = Arrays.stream(serverNotifierNames)
-				.map(notifierFactory::create)
+				.map(name -> 
+				{
+					try 
+					{
+						return notifierFactory.create(name);
+					}
+					catch(IllegalArgumentException exception) 
+					{
+						logToConsole(RED + exception.getMessage());
+						logToConsole(RED + "Ignoring it.");
+						return null;
+					}
+				})
+				.filter(Objects::nonNull)
 				.collect(toList());
 
 		//combine the notifiers into a single listener(so we have an object to pass to the test command)
