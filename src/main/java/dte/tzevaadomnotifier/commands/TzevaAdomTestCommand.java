@@ -11,17 +11,17 @@ import dte.tzevaadomapi.notifier.TzevaAdomListener;
 
 public class TzevaAdomTestCommand implements CommandExecutor
 {
-	private final TzevaAdomListener tzevaAdomListener;
+	private final TzevaAdomListener serverListener;
 	
-	public TzevaAdomTestCommand(TzevaAdomListener tzevaAdomListener) 
+	public TzevaAdomTestCommand(TzevaAdomListener serverListener) 
 	{
-		this.tzevaAdomListener = tzevaAdomListener;
+		this.serverListener = serverListener;
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
 	{
-		this.tzevaAdomListener.onTzevaAdom(new Alert("תל אביב", "חדירת מחבלים - בדיקה", LocalDateTime.now()));
+		this.serverListener.onTzevaAdom(new Alert("תל אביב", "חדירת מחבלים - בדיקה", LocalDateTime.now()));
 		return true;
 	}
 }

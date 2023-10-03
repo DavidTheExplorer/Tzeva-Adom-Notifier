@@ -8,15 +8,15 @@ import org.bukkit.configuration.Configuration;
 import com.cryptomorin.xseries.XSound;
 
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
-import dte.tzevaadomnotifier.tzevaadomlisteners.SoundNotifier;
-import dte.tzevaadomnotifier.tzevaadomlisteners.TitleNotifier;
+import dte.tzevaadomnotifier.tzevaadomlisteners.SoundListener;
+import dte.tzevaadomnotifier.tzevaadomlisteners.TitleListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.sync.SyncTzevaAdomListener;
 
-public class TzevaAdomNotifierFactory
+public class TzevaAdomListenerFactory
 {
 	private final Configuration config;
 
-	public TzevaAdomNotifierFactory(Configuration config) 
+	public TzevaAdomListenerFactory(Configuration config) 
 	{
 		this.config = config;
 	}
@@ -28,11 +28,11 @@ public class TzevaAdomNotifierFactory
 		switch(notifierName.toLowerCase()) 
 		{
 			case "title":
-				notifier = parseTitleNotifier();
+				notifier = parseTitleListener();
 				break;
 				
 			case "sound":
-				notifier = parseSoundNotifier();
+				notifier = parseSoundListener();
 				break;
 				
 			default:
@@ -43,9 +43,9 @@ public class TzevaAdomNotifierFactory
 		return new SyncTzevaAdomListener(notifier);
 	}
 	
-	private TitleNotifier parseTitleNotifier() 
+	private TitleListener parseTitleListener() 
 	{
-		return new TitleNotifier(alert -> 
+		return new TitleListener(alert -> 
 		{
 			String title = injectPlaceholders(colorize(this.config.getString("notifiers.title.title")), alert);
 			String subtitle = injectPlaceholders(colorize(this.config.getString("notifiers.title.subtitle")), alert);
@@ -54,7 +54,7 @@ public class TzevaAdomNotifierFactory
 		});
 	}
 	
-	private SoundNotifier parseSoundNotifier() 
+	private SoundListener parseSoundListener() 
 	{
 		XSound sound = XSound.parse(this.config.getString("notifiers.sound.value")).sound;
 		int amount = this.config.getInt("notifiers.sound.amount");
@@ -63,6 +63,6 @@ public class TzevaAdomNotifierFactory
 		if(!sound.isSupported()) 
 			sound = XSound.parse(this.config.getString("notifiers.sound.alternative")).sound;
 
-		return new SoundNotifier(sound, amount);
+		return new SoundListener(sound, amount);
 	}
 }

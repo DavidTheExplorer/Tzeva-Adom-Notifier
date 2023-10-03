@@ -15,11 +15,11 @@ import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
 import dte.tzevaadomnotifier.commands.TzevaAdomTestCommand;
 import dte.tzevaadomnotifier.tzevaadomlisteners.composite.CompositeTzevaAdomListener;
-import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomNotifierFactory;
+import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomListenerFactory;
 
 public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 {
-	private TzevaAdomListener tzevaAdomListener;
+	private TzevaAdomListener serverListener;
 
 	private static TzevaAdomNotifierPlugin INSTANCE;
 
@@ -28,9 +28,9 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	{
 		INSTANCE = this;
 
-		this.tzevaAdomListener = parseTzevaAdomNotifier();
+		this.serverListener = parseServerListener();
 		
-		getCommand("tzevaadomtest").setExecutor(new TzevaAdomTestCommand(this.tzevaAdomListener));
+		getCommand("tzevaadomtest").setExecutor(new TzevaAdomTestCommand(this.serverListener));
 		
 		createTzevaAdomNotifier().listen();
 	}
@@ -44,27 +44,27 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	{
 		return new TzevaAdomNotifier.Builder()
 				.every(Duration.ofSeconds(2))
-				.onTzevaAdom(this.tzevaAdomListener)
+				.onTzevaAdom(this.serverListener)
 				.onFailedRequest(exception -> logToConsole(RED + "Can't check if it's Tzeva Adom - " + ExceptionUtils.getMessage(exception)))
 				.build();
 	}
 	
-	private TzevaAdomListener parseTzevaAdomNotifier()
+	private TzevaAdomListener parseServerListener()
 	{
 		saveDefaultConfig();
 		
-		TzevaAdomNotifierFactory notifierFactory = new TzevaAdomNotifierFactory(getConfig());
+		TzevaAdomListenerFactory listenerFactory = new TzevaAdomListenerFactory(getConfig());
 		
 		//users may specify multiple notifiers
 		String[] serverNotifierNames = getConfig().getString("server-notifier").split(", ");
 
-		//parse the config notifiers to objects
+		//parse the notifiers
 		List<TzevaAdomListener> configNotifiers = Arrays.stream(serverNotifierNames)
 				.map(name -> 
 				{
 					try 
 					{
-						return notifierFactory.create(name);
+						return listenerFactory.create(name);
 					}
 					catch(IllegalArgumentException exception) 
 					{
@@ -76,7 +76,7 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 				.filter(Objects::nonNull)
 				.collect(toList());
 
-		//combine the notifiers into a single listener(so we have an object to pass to the test command)
+		//combine them into a single listener(so we have an object to pass to the test command)
 		CompositeTzevaAdomListener compositeListener = new CompositeTzevaAdomListener();
 		configNotifiers.forEach(compositeListener::add);
 

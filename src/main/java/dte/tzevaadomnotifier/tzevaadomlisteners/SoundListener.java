@@ -8,12 +8,12 @@ import dte.tzevaadomapi.alert.Alert;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomnotifier.TzevaAdomNotifierPlugin;
 
-public class SoundNotifier implements TzevaAdomListener
+public class SoundListener implements TzevaAdomListener
 {
 	private final XSound sound;
 	private final int amount;
 	
-	public SoundNotifier(XSound sound, int amount)
+	public SoundListener(XSound sound, int amount)
 	{
 		this.sound = sound;
 		this.amount = amount;
