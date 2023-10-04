@@ -13,7 +13,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
 import dte.tzevaadomapi.notifier.TzevaAdomNotifier;
-import dte.tzevaadomnotifier.commands.TzevaAdomTestCommand;
+import dte.tzevaadomnotifier.commands.TzevaAdomCommand;
 import dte.tzevaadomnotifier.tzevaadomlisteners.CompositeTzevaAdomListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.SyncTzevaAdomListener;
 import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomListenerFactory;
@@ -31,9 +31,9 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 
 		this.serverListener = parseServerListener();
 		
-		getCommand("tzevaadomtest").setExecutor(new TzevaAdomTestCommand(this.serverListener));
-		
 		createTzevaAdomNotifier().listen();
+		
+		registerCommands();
 	}
 
 	public static TzevaAdomNotifierPlugin getInstance() 
@@ -83,5 +83,13 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 
 		//lastly, decorate it to operate on the Server Thread - so the inner ones can safely access the Bukkit API
 		return new SyncTzevaAdomListener(compositeListener);
+	}
+	
+	private void registerCommands() 
+	{
+		TzevaAdomCommand tzevaAdomCommand = new TzevaAdomCommand(this.serverListener);
+		
+		getCommand("tzevaadom").setExecutor(tzevaAdomCommand);
+		getCommand("tzevaadom").setTabCompleter(tzevaAdomCommand);
 	}
 }
