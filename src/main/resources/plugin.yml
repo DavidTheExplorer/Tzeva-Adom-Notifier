@@ -1,5 +1,8 @@
 name: TzevaAdomNotifier
-main: dte.tzevaadomnotifier.TzevaAdomNotifierMain
+main: dte.tzevaadomnotifier.TzevaAdomNotifierPlugin
 version: 1.0
 description: Notifies online players when a Tzeva Adom takes place.
 api-version: 1.13
+commands:
+    tzevaadom:
+        description: The root command of the plugin.
