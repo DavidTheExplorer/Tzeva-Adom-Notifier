@@ -20,7 +20,7 @@ import dte.tzevaadomnotifier.tzevaadomlisteners.factory.TzevaAdomListenerFactory
 
 public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 {
-	private TzevaAdomListener serverListener;
+	private TzevaAdomListener serverNotifier;
 
 	private static TzevaAdomNotifierPlugin INSTANCE;
 
@@ -29,7 +29,7 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	{
 		INSTANCE = this;
 
-		this.serverListener = parseServerListener();
+		this.serverNotifier = parseServerNotifier();
 		
 		createTzevaAdomNotifier().listen();
 		
@@ -45,22 +45,22 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	{
 		return new TzevaAdomNotifier.Builder()
 				.every(Duration.ofSeconds(2))
-				.onTzevaAdom(this.serverListener)
+				.onTzevaAdom(this.serverNotifier)
 				.onFailedRequest(exception -> logToConsole(RED + "Can't check if it's Tzeva Adom - " + ExceptionUtils.getMessage(exception)))
 				.build();
 	}
 	
-	private TzevaAdomListener parseServerListener()
+	private TzevaAdomListener parseServerNotifier()
 	{
 		saveDefaultConfig();
 		
 		TzevaAdomListenerFactory listenerFactory = new TzevaAdomListenerFactory(getConfig());
 		
 		//users may specify multiple notifiers
-		String[] serverNotifierNames = getConfig().getString("server-notifier").split(", ");
+		String[] notifiersNames = getConfig().getString("server-notifier").split(", ");
 
 		//parse the notifiers
-		List<TzevaAdomListener> configNotifiers = Arrays.stream(serverNotifierNames)
+		List<TzevaAdomListener> parsedNotifiers = Arrays.stream(notifiersNames)
 				.map(name -> 
 				{
 					try 
@@ -77,17 +77,17 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 				.filter(Objects::nonNull)
 				.collect(toList());
 
-		//combine them into a single listener in order to work against a single listener
-		CompositeTzevaAdomListener compositeListener = new CompositeTzevaAdomListener();
-		configNotifiers.forEach(compositeListener::add);
+		//combine them into a single listener because it's irrelevant if one or multiple are used
+		CompositeTzevaAdomListener compositeNotifier = new CompositeTzevaAdomListener();
+		parsedNotifiers.forEach(compositeNotifier::add);
 
-		//lastly, decorate it to operate on the Server Thread - so the inner ones can safely access the Bukkit API
-		return new SyncTzevaAdomListener(compositeListener);
+		//lastly, decorate it to operate on the Server Thread - so the inner notifiers can safely access the Bukkit API
+		return new SyncTzevaAdomListener(compositeNotifier);
 	}
 	
 	private void registerCommands() 
 	{
-		TzevaAdomCommand tzevaAdomCommand = new TzevaAdomCommand(this.serverListener);
+		TzevaAdomCommand tzevaAdomCommand = new TzevaAdomCommand(this.serverNotifier);
 		
 		getCommand("tzevaadom").setExecutor(tzevaAdomCommand);
 		getCommand("tzevaadom").setTabCompleter(tzevaAdomCommand);
