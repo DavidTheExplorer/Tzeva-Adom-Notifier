@@ -12,47 +12,43 @@ public class TitleListener implements TzevaAdomListener
 {
 	private final Function<Alert, String[]> titleFactory;
 	
-	private TitleListener(Function<Alert, String[]> titleFactory) 
+	public TitleListener(Function<Alert, String[]> titleFactory) 
 	{
 		this.titleFactory = titleFactory;
 	}
 
 	public static TitleListener withPlaceholders(Function<Alert, String[]> titleFactory) 
 	{
-		//wrap the factory to support Alert placeholders
-		Function<Alert, String[]> newFactory = (alert) -> 
-		{
-			return Arrays.stream(titleFactory.apply(alert))
-					.map(text -> injectPlaceholders(text, alert))
-					.toArray(String[]::new);
-		};
-		
-		return new TitleListener(newFactory);
+		return new TitleListener(injectPlaceholders(titleFactory));
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onTzevaAdom(Alert alert)
 	{
-		String[] titleData = fetchTitleData(alert);
-		
-		Bukkit.getOnlinePlayers().forEach(player -> player.sendTitle(titleData[0], titleData[1]));
-	}
-	
-	private String[] fetchTitleData(Alert alert) 
-	{
-		String[] data = this.titleFactory.apply(alert);
-		
-		if(data.length != 2)
+		String[] titles = this.titleFactory.apply(alert);
+
+		if(titles.length != 2)
 			throw new IllegalArgumentException("Exactly 1 title and 1 subtitle must be provided!");
 		
-		return data;
+		Bukkit.getOnlinePlayers().forEach(player -> player.sendTitle(titles[0], titles[1]));
 	}
-
-	private static String injectPlaceholders(String text, Alert alert) 
+	
+	private static Function<Alert, String[]> injectPlaceholders(Function<Alert, String[]> titleFactory)
 	{
-		return text
-				.replace("%city%", alert.getCity())
-				.replace("%title%", alert.getTitle());
+		return (alert) -> 
+		{
+			String[] titles = titleFactory.apply(alert);
+			
+			//inject the alert's placeholders
+			return Arrays.stream(titles)
+					.map(text -> 
+					{
+						return text
+								.replace("%city%", alert.getCity())
+								.replace("%title%", alert.getTitle());
+					})
+					.toArray(String[]::new);
+		};
 	}
 }
