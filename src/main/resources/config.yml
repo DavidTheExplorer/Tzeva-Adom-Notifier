@@ -5,8 +5,8 @@ server-notifier: title, sound
 # This section configures the behavior of the notifiers.
 notifiers:
     title:
-        title: '&cצבע אדום ב&4&l%city%'
-        subtitle: '&c&l> &4%title% &c&l<'
+        title: '&c&l> &4%title% &c&l<'
+        subtitle: '&cצבע אדום ב&4&l%city%'
     
     # The 'alternative' sound is used when the server's version doesn't have the sound of 'value'.
     sound:
