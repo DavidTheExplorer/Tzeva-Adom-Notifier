@@ -44,7 +44,7 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	private TzevaAdomNotifier createTzevaAdomNotifier() 
 	{
 		return new TzevaAdomNotifier.Builder()
-				.every(Duration.ofSeconds(2))
+				.every(Duration.ofMillis(500))
 				.onTzevaAdom(this.serverNotifier)
 				.onFailedRequest(exception -> logToConsole(RED + "Can't check if it's Tzeva Adom - " + ExceptionUtils.getMessage(exception)))
 				.build();
