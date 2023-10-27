@@ -3,7 +3,6 @@ package dte.tzevaadomnotifier;
 import static java.util.stream.Collectors.toList;
 import static org.bukkit.ChatColor.RED;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +43,6 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	private TzevaAdomNotifier createTzevaAdomNotifier() 
 	{
 		return new TzevaAdomNotifier.Builder()
-				.every(Duration.ofMillis(500))
 				.onTzevaAdom(this.serverNotifier)
 				.onFailedRequest(exception -> logToConsole(RED + "Can't check if it's Tzeva Adom - " + ExceptionUtils.getMessage(exception)))
 				.build();

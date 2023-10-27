@@ -6,7 +6,7 @@ server-notifier: title, sound
 notifiers:
     title:
         title: '&c&l> &4%title% &c&l<'
-        subtitle: '&cצבע אדום ב&4&l%city%'
+        subtitle: '&cצבע אדום ב&4&l%region%'
     
     # The 'alternative' sound is used when the server's version doesn't have the sound of 'value'.
     sound:
