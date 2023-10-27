@@ -10,6 +10,14 @@
 	
 	<build>
 		<finalName>Tzeva Adom Notifier ${project.version}</finalName>
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
 		<plugins>
 			
 			<plugin>
