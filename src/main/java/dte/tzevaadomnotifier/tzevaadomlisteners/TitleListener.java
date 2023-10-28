@@ -45,7 +45,7 @@ public class TitleListener implements TzevaAdomListener
 					.map(text -> 
 					{
 						return text
-								.replace("%city%", alert.getCity())
+								.replace("%region%", alert.getRegion())
 								.replace("%title%", alert.getTitle());
 					})
 					.toArray(String[]::new);

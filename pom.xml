@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dte</groupId>
 	<artifactId>tzevaadomnotifier</artifactId>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 	
 	<properties>
 		<shade.base>dte.tzevaadomnotifier.shaded</shade.base>
@@ -10,6 +10,14 @@
 	
 	<build>
 		<finalName>Tzeva Adom Notifier ${project.version}</finalName>
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
 		<plugins>
 			
 			<plugin>
@@ -45,6 +53,11 @@
 							<shadedPattern>${shade.base}.xseries</shadedPattern>
 						</relocation>
 
+						<relocation>
+           					<pattern>org.bstats</pattern>
+            				<shadedPattern>${shade.base}.bstats</shadedPattern>
+          				</relocation>
+
 					</relocations>
 
 				</configuration>
@@ -59,6 +72,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<repositories>
 		
 		<repository>
@@ -85,7 +99,7 @@
 		<dependency>
 			<groupId>com.github.DavidTheExplorer</groupId>
 	    	<artifactId>Tzeva-Adom-API</artifactId>
-	    	<version>1.4.1</version>
+	    	<version>1.5.0</version>
 		</dependency>
 		
 		<dependency>
@@ -98,6 +112,12 @@
     		<groupId>com.github.cryptomorin</groupId>
     		<artifactId>XSeries</artifactId>
     		<version>9.4.0</version>
+		</dependency>
+		
+		<dependency>
+  			<groupId>org.bstats</groupId>
+  			<artifactId>bstats-bukkit</artifactId>
+  			<version>3.0.2</version>
 		</dependency>
 		
 	</dependencies>

@@ -3,12 +3,12 @@ package dte.tzevaadomnotifier;
 import static java.util.stream.Collectors.toList;
 import static org.bukkit.ChatColor.RED;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.bstats.bukkit.Metrics;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
 import dte.tzevaadomapi.notifier.TzevaAdomListener;
@@ -32,8 +32,8 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 		this.serverNotifier = parseServerNotifier();
 		
 		createTzevaAdomNotifier().listen();
-		
 		registerCommands();
+		initMetrics();
 	}
 
 	public static TzevaAdomNotifierPlugin getInstance() 
@@ -44,7 +44,6 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 	private TzevaAdomNotifier createTzevaAdomNotifier() 
 	{
 		return new TzevaAdomNotifier.Builder()
-				.every(Duration.ofMillis(500))
 				.onTzevaAdom(this.serverNotifier)
 				.onFailedRequest(exception -> logToConsole(RED + "Can't check if it's Tzeva Adom - " + ExceptionUtils.getMessage(exception)))
 				.build();
@@ -91,5 +90,10 @@ public class TzevaAdomNotifierPlugin extends ModernJavaPlugin
 		
 		getCommand("tzevaadom").setExecutor(tzevaAdomCommand);
 		getCommand("tzevaadom").setTabCompleter(tzevaAdomCommand);
+	}
+	
+	private void initMetrics() 
+	{
+		new Metrics(this, 20158);
 	}
 }
