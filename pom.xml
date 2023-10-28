@@ -53,6 +53,11 @@
 							<shadedPattern>${shade.base}.xseries</shadedPattern>
 						</relocation>
 
+						<relocation>
+           					<pattern>org.bstats</pattern>
+            				<shadedPattern>${shade.base}.bstats</shadedPattern>
+          				</relocation>
+
 					</relocations>
 
 				</configuration>
@@ -67,6 +72,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<repositories>
 		
 		<repository>
@@ -106,6 +112,12 @@
     		<groupId>com.github.cryptomorin</groupId>
     		<artifactId>XSeries</artifactId>
     		<version>9.4.0</version>
+		</dependency>
+		
+		<dependency>
+  			<groupId>org.bstats</groupId>
+  			<artifactId>bstats-bukkit</artifactId>
+  			<version>3.0.2</version>
 		</dependency>
 		
 	</dependencies>
